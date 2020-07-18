@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">		
+		<title>Weather</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+		<!--fonts -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<!--main css file -->
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>		
+		<div class="site-content">
+			<div class="site-header">
+				<div class="container">
+					<a href="javascript:void(0)" class="branding">
+						<img src="images/logo.png" alt="" class="logo">
+						<div class="logo-type">
+							<h1 class="site-title">Weather</h1>
+							<small class="site-description">Forecast</small>
+						</div>
+						 <a class="cur_btn" style="float: right; text-decoration: none;  border-radius: 25px;" href="javascript:void(0)">
+					        <span></span>
+					        <span></span>
+					        <span></span>
+					        <span></span>
+					        Current Weather Update<img src="images/icon-marker.png" alt="" class="logo">
+					    </a>
+					</a>
+					<div class="mobile-navigation"></div>
+				</div>
+			</div> <!-- .site-header -->
+
+			<div class="hero bg_image" >
+				<div class="container">
+					<form action="javascript:void(0)" class="find-location">
+						<input type="text" placeholder="Find your location..." class="input_text">
+						<input type="submit" value="Find" class="submit">
+					</form>
+				</div>
+				<div class="forecast-table">
+				<div class="container">
+					<div class="forecast-container">
+						<div class="today forecast">
+							<div class="forecast-header">
+								<div style="float: left" class="date2"></div>
+								<div class="date"></div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div id="name" class="location name">---</div>
+								<div class="location country">---</div>
+								<div class="degree">
+									<div class="num temp">---</div><sup>o</sup>C
+									<div style="float: right;" class="forecast-icon icon">
+										
+									</div>	
+								</div>
+								<img src="images/icon-umberella.png" alt="">&nbsp;<span  class="clouds">---%</span>
+								<img src="images/icon-wind.png" alt="">&nbsp;<span class="wind">---km/h</span>
+								<img src="images/icon-compass.png" alt="">&nbsp;<span class="desc">---</span>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="container">
+					<form action="javascript:void(0)" class="find-location">
+						<input class="info" type="text" placeholder="Find your location...">
+						<input class="info_btn" data-toggle="modal" data-target="#myModal" type="submit" value="Show Data">
+					</form>
+				</div>				
+				</div>
+
+				  
+				  	<div class="container">
+					    <h2>Simple weather Information</h2>
+					  	<p>Find Your location and then click on "Download Section"</p>
+					  	<div class="notification">
+					  		<span><button  type="button" class="btn btn-info d_sec" data-toggle="collapse" data-target="#demo">Download Section</button></span>
+					  		<span style="background-color: red" class="badge">1</span>
+						</div>
+						
+					  <div id="demo" class="collapse">
+					  	<div class="table-responsive">
+					        <table width="100%" id="tblData" border="1">
+							    <tr>
+							        <th>City</th>
+							        <th>Country</th>
+							        <th>Temparature(Degree)</th>
+							        <th>Humidity</th>
+							        <th>Wind Speed</th>
+							        <th>Weather</th>
+							        <th>Weather Description</th>
+							    </tr>
+							    <tr>
+							        <td class="city"></td>
+							        <td class="country_name"></td>
+							        <td class="temparature"></td>
+							        <td class="humidity"></td>
+							        <td class="wind_speed"></td>
+							        <td class="weather"></td>
+							        <td class="weather_desc"></td>
+							    </tr>
+							</table>
+							<button style="float: right;" onclick="exportTableToExcel('tblData' , 'today_forecast')" type="button" class="btn btn-default">Download</button>
+					  	</div>
+					  </div>
+					</div>
+			</div>
+					
+			<footer class="site-footer">
+				<div class="container">
+					<p class="colophon">Weather Forecast. All rights reserved</p>
+				</div>
+			</footer>
+		</div>
+		
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<script src="app.js"></script>
+
+		<script type="text/javascript">
+		    function exportTableToExcel(tableID, filename = ''){
+			    var downloadLink;
+			    var dataType = 'application/vnd.ms-excel';
+			    var tableSelect = document.getElementById(tableID);
+			    console.log(tableSelect);
+			    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+			    
+			    // Specify file name
+			    filename = filename?filename+'.xls':'excel_data.xls';
+			    
+			    // Create download link element
+			    downloadLink = document.createElement("a");
+			    
+			    document.body.appendChild(downloadLink);
+			    
+			    if(navigator.msSaveOrOpenBlob) {
+			        var blob = new Blob(['\ufeff', tableHTML], {
+			            type: dataType
+			        });
+			        navigator.msSaveOrOpenBlob( blob, filename);
+			    } else {
+			        // Create a link to the file
+			        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+			    
+			        // Setting the file name
+			        downloadLink.download = filename;
+			        
+			        //triggering the function
+			        downloadLink.click();
+			    }
+			}
+		</script>
+		
+	</body>
+
+</html>
